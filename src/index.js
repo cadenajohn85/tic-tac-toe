@@ -85,16 +85,64 @@ class Game extends React.Component {
         const history = this.state.history;
         const current = history[this.state.stepNumber];
         const winner = calculateWinner(current.squares);
-        // history, current, winner not helpful
-        console.log(this.state.history);
 
+        //-------------------------------- Bonus #1 --------------------------------------
+        let locationString;
+        if (history.length > 1) {
+            const previousIndex = history.length -2 ;
+
+            // console.log("Current move array:");
+            console.log(current.squares);
+            // console.log("Previous move array:");
+            console.log(history[previousIndex].squares);
+
+            let locationPosition;
+
+            for (let i = 0; i < 9; i++) {
+                if (current.squares[i] !== history[previousIndex].squares[i]) {
+                    locationPosition = i + 1;
+                }
+            }
+
+            switch(locationPosition) {
+                case 1:
+                    locationString = "(1, 1)";
+                    break;
+                case 2:
+                    locationString = "(2, 1)";
+                    break;
+                case 3:
+                    locationString = "(3, 1)";
+                    break;
+                case 4:
+                    locationString = "(1, 2)";
+                    break;
+                case 5:
+                    locationString = "(2, 2)";
+                    break;
+                case 6:
+                    locationString = "(3, 2)";
+                    break;
+                case 7:
+                    locationString = "(1, 3)";
+                    break;
+                case 8:
+                    locationString = "(2, 3)";
+                    break;
+                case 9:
+                    locationString = "(3, 3)";
+                    break;
+                default:
+                    locationString = '';
+            }
+        }
 
         const moves = history.map((step, move) => {
             const desc = move ?
                 'Go to move #' + move :
                 'Go to game start';
             const moveLocation = move ?
-                '(col, row)' :
+                locationString :
                 '';
             return (
                 <li key={move}>
