@@ -67,7 +67,8 @@ class Game extends React.Component {
         squares[i] = this.state.xIsNext ? 'X' : 'O';
         this.setState({
             history: history.concat([{
-                squares: squares
+                squares: squares,
+                moveLocation: (i + 1)
             }]),
             stepNumber: history.length,
             xIsNext: !this.state.xIsNext,
@@ -82,19 +83,60 @@ class Game extends React.Component {
     }
 
     render() {
+        // History is an array of objects. Its length is 1 greater than the total number of moves,
+        // and it contains the state of the board for each historical move in an array called "squares"
         const history = this.state.history;
         const current = history[this.state.stepNumber];
         const winner = calculateWinner(current.squares);
 
+        // "step" is currentValue, "move" is index
         const moves = history.map((step, move) => {
+            // Move will be 0 (falsey) before 1st move, and > 1 (truthy) from 1st move onwards
             const desc = move ?
                 'Go to move #' + move :
                 'Go to game start';
+            // moveString represents the coordinate of each move on the board, in format (column, row)
+            let moveString;
+            switch(history[move].moveLocation) {
+                case 1:
+                    moveString = "(1, 1)";
+                    break;
+                case 2:
+                    moveString = "(2, 1)";
+                    break;
+                case 3:
+                    moveString = "(3, 1)";
+                    break;
+                case 4:
+                    moveString = "(1, 2)";
+                    break;
+                case 5:
+                    moveString = "(2, 2)";
+                    break;
+                case 6:
+                    moveString = "(3, 2)";
+                    break;
+                case 7:
+                    moveString = "(1, 3)";
+                    break;
+                case 8:
+                    moveString = "(2, 3)";
+                    break;
+                case 9:
+                    moveString = "(3, 3)";
+                    break;
+                default:
+                    moveString = '';
+            }
             return (
                 <li key={move}>
                     <button onClick={() => this.jumpTo(move)}>
                         {desc}
                     </button>
+                    <span>
+                        &nbsp;
+                        {moveString}
+                    </span>
                 </li>
             );
         });
