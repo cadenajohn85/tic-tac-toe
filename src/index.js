@@ -128,17 +128,34 @@ class Game extends React.Component {
                 default:
                     moveString = '';
             }
-            return (
-                <li key={move}>
-                    <button onClick={() => this.jumpTo(move)}>
-                        {desc}
-                    </button>
-                    <span>
+
+            // Renders the button text as bold for the current move (either the last move, or the move the user clicked on
+            if (move === this.state.stepNumber) {
+                return (
+                    <li key={move}>
+                        <button onClick={() => this.jumpTo(move)}>
+                            <strong>{desc}</strong>
+                        </button>
+                        <span>
                         &nbsp;
-                        {moveString}
+                            {moveString}
                     </span>
-                </li>
-            );
+                    </li>
+                );
+            } else {
+                return (
+                    <li key={move}>
+                        <button onClick={() => this.jumpTo(move)}>
+                            {desc}
+                        </button>
+                        <span>
+                        &nbsp;
+                            {moveString}
+                    </span>
+                    </li>
+                );
+            }
+
         });
 
         let status;
